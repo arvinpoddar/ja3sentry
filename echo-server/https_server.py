@@ -25,10 +25,13 @@ import httpagentparser
 import log_conf
 import ja3
 
+## Test snippet from browser:
+## fetch("https://localhost:4443").then((response) => response.json()).then((data) => console.log(data));
 
-CERTFILE = "./certs/fullchain.pem"
+
+CERTFILE = "./certs/server.crt"
 """str Obj: file path to the certificate PEM file"""
-KEYFILE = "./certs/privkey.pem"
+KEYFILE = "./certs/server.key"
 """str Obj: file path to the private key PEM file"""
 
 HOST = ""
@@ -277,13 +280,23 @@ def retrieve_http_req(sock, message_queues, sock_to_ja3, poller):
         }
 
         # Convert the response object to bytes and encode as JSON
-        response_json = json.dumps(reply_json).encode('utf-8')
+        response_json_str = json.dumps(reply_json)
 
-        # Create the HTTP response with the JSON content-type header
-        response = b'HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n\r\n' + response_json
+        response = "HTTP/1.1 200 OK\r\n"
+        response_headers = {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': 'Content-Type,Authorization',
+        }
+
+        for header_key, header_value in response_headers.items():
+            response += f'{header_key}: {header_value}\r\n'
+        response += '\r\n'
+
+        response += response_json_str
 
         # add the message reply to the queue
-        message_queues[sock].put(response)
+        message_queues[sock].put(response.encode('utf-8'))
         # tell the poller we ready to send it
         poller.modify(sock, READ_WRITE)
 

@@ -1,6 +1,25 @@
 # JA3Sentry Echo Server
 
-The Echo server returns TLS client handshake data to the client, along with the JA3 and JA3 hash data. This project borrows heavily from the PyJA3mas repository by [Appian](https://github.com/appian/pyja3mas). The documentation for this repository is linked below:
+The Echo server returns TLS client handshake data to the client, along with the JA3 and JA3 hash data. This project borrows heavily from the PyJA3mas repository by [Appian](https://github.com/appian/pyja3mas). The documentation for this repository is linked below
+
+To generate the certificate files needed in the `cert` directory, I used this command (I am running a Mac OS 12.6)
+
+```openssl req \
+  -newkey rsa:2048 \
+  -x509 \
+  -nodes \
+  -keyout server.key \
+  -new \
+  -out server.crt \
+  -subj /CN=localhost \
+  -extensions v3_new \
+  -config <(cat /System/Library/OpenSSL/openssl.cnf \
+  <(printf '[v3_new]\nsubjectAltName=DNS:localhost\nextendedKeyUsage=serverAuth')) \
+  -sha256 \
+  -days 365
+```
+
+This will output `server.crt` and `server.key`, which I use as the certificate and private key respectively in `http_server.py`. Note, I also added thes `server.crt` to my Keychain Access with all permissions as trusted.
 
 # PyJA3mas
 
