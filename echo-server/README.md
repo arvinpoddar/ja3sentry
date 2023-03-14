@@ -19,7 +19,7 @@ To generate the certificate files needed in the `cert` directory, I used this co
   -days 365
 ```
 
-This will output `server.crt` and `server.key`, which I use as the certificate and private key respectively in `http_server.py`. Note, I also added thes `server.crt` to my Keychain Access with all permissions as trusted.
+This will output `server.crt` and `server.key`, which I use as the certificate and private key respectively in `http_server.py`. Note, I also added thes `server.crt` to my Keychain Access with all permissions as trusted. For the original SO answer, see https://stackoverflow.com/a/64309893.
 
 # PyJA3mas
 
