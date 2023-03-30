@@ -1,0 +1,7 @@
+* {
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  @apply bg-grey-dark m-0;
+}

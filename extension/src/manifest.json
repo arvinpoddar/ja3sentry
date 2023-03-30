@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "JA3Sentry",
+  "version": "1.0.0",
+  "description": "Periodically monitors TLS handshake params for signs of compromise",
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "assets/icons/icon-16.png"
+  },
+  "icons": {
+    "16": "assets/icons/icon-16.png",
+    "32": "assets/icons/icon-32.png",
+    "48": "assets/icons/icon-48.png",
+    "128": "assets/icons/icon-128.png"
+  },
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "permissions": ["storage"]
+}
