@@ -6,4 +6,8 @@ export default {
   async isRiskyJA3() {
     return true;
   },
+
+  async isRiskyCache() {
+    return true;
+  },
 };
