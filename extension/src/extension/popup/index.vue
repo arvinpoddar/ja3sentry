@@ -12,6 +12,10 @@
         content="All of your recent JA3s appear safe"
       />
 
+      <div class="mt-1 text-xs font-light text-grey-light">
+        Last Updated: {{ lastUpdated }}
+      </div>
+
       <div class="mt-4">
         <header
           class="flex items-center p-2 bg-grey-darker cursor-pointer select-none cache-display-header"
@@ -64,10 +68,12 @@ export default {
 
   setup() {
     const cache = ref([]);
+    const lastUpdated = ref("");
     const loading = ref(false);
 
     const updateCacheDisplay = async () => {
       cache.value = await CacheService.retrieveCache();
+      lastUpdated.value = await CacheService.retrieveLastUpdatedDate();
       console.log(cache.value);
     };
 
@@ -111,6 +117,7 @@ export default {
 
     return {
       cache,
+      lastUpdated,
 
       displayCache,
       toggleCacheDisplay,

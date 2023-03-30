@@ -8,6 +8,7 @@ export const COLORS = {
 export const CACHE = {
   MAX_ENTRIES: 4,
   KEY: "ja3-sentry-cache",
+  LAST_UDPATED: "ja3-sentry-last-updated",
 };
 
 export const JA3_BLOCK_SIZE = 4;
