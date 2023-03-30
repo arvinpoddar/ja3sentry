@@ -12,11 +12,11 @@
         content="All of your recent JA3s appear safe"
       />
 
-      <div class="mt-1 text-xs font-light text-grey-light">
+      <div class="mt-2 text-xs font-light text-grey-light">
         Last Updated: {{ lastUpdated }}
       </div>
 
-      <div class="mt-4">
+      <div class="mt-3">
         <header
           class="flex items-center p-2 bg-grey-darker cursor-pointer select-none cache-display-header"
           @click="toggleCacheDisplay"
