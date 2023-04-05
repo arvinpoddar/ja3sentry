@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 
-const pool = require("./connection");
+const db = require("./connection");
 
 const app = express();
 
@@ -18,18 +18,18 @@ app.get("/api/check", (req, res) => {
  * received blocks that are deemed threats based on database matches
  */
 const VERIFY_ENDPOINT = "/api/verify";
-app.get(VERIFY_ENDPOINT, (req, res) => {
-  console.log(`${VERIFY_ENDPOINT} received request from ${req.ip}`);
+app.get(VERIFY_ENDPOINT, (request, response) => {
+  console.log(`${VERIFY_ENDPOINT} received request from ${request.ip}`);
   try {
-    pool.query("SELECT * FROM threats", (error, result) => {
+    db.query("SELECT * FROM threats", (error, result) => {
       if (error) {
-        return res.status(500).send(error);
+        return response.status(500).send(error);
       }
 
-      res.send(result);
+      response.send(result);
     });
   } catch (error) {
-    return res.status(500).send(error);
+    return response.status(500).send(error);
   }
 });
 
