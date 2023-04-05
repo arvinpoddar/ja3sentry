@@ -7,9 +7,10 @@
 
     <main class="py-5 px-4">
       <Banner
-        type="positive"
-        title="All clear!"
-        content="All of your recent JA3s appear safe"
+        v-if="banner"
+        :type="banner.type"
+        :title="banner.title"
+        :content="banner.message"
       />
 
       <div class="mt-2 text-xs font-light text-grey-light">
@@ -67,11 +68,13 @@ export default {
   },
 
   setup() {
+    const banner = ref(null);
     const cache = ref([]);
     const lastUpdated = ref("");
     const loading = ref(false);
 
     const updateCacheDisplay = async () => {
+      banner.value = await CacheService.retrieveBanner();
       cache.value = await CacheService.retrieveCache();
       lastUpdated.value = await CacheService.retrieveLastUpdatedDate();
       console.log(cache.value);
@@ -111,7 +114,7 @@ export default {
     onMounted(() => {
       setInterval(async () => {
         updateCacheDisplay();
-      }, 2000);
+      }, 1000);
       updateCacheDisplay();
     });
 

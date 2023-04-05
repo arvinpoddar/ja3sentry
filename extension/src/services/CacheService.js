@@ -21,6 +21,17 @@ export default {
     });
   },
 
+  async retrieveBanner() {
+    const date = await chrome.storage.local.get(CACHE.BANNER);
+    return date[CACHE.BANNER] || null;
+  },
+
+  async setBanner(banner) {
+    await chrome.storage.local.set({
+      [CACHE.LAST_UPDATED]: { ...banner, date: this.getDateString() },
+    });
+  },
+
   async addJA3BlockToCache(ja3) {
     const cache = await this.retrieveCache();
     console.log(cache);
