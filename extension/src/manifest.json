@@ -5,7 +5,7 @@
   "description": "Periodically monitors TLS handshake params for signs of compromise",
   "action": {
     "default_popup": "popup.html",
-    "default_icon": "assets/icons/icon-16.png"
+    "default_icon": "assets/icons/icon-128.png"
   },
   "icons": {
     "16": "assets/icons/icon-128.png",
