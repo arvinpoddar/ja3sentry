@@ -277,7 +277,7 @@ def retrieve_http_req(sock, message_queues, sock_to_ja3, poller):
             "date": datetime.datetime.now().isoformat(),
             "ja3": ja3_record.get("ja3", None),
             "ja3_md5": ja3_record.get("ja3_md5", None),
-            "ja3_sha1": ja3_record.get("ja3_md5", None),
+            "ja3_sha1": ja3_record.get("ja3_sha1", None),
             "user_agent": user_agent_string,
             "browser_name": browser_name
         }
