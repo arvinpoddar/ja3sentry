@@ -3,7 +3,7 @@ import { COLORS } from "@/constants";
 import Echo from "@/services/EchoService.js";
 import CacheService from "@/services/CacheService.js";
 import ValidateService from "@/services/ValidateService.js";
-import LocalRiskService from "@services/LocalRiskService";
+import LocalRiskService from "@/services/LocalRiskService";
 
 export const fetchAndValidateJA3 = async () => {
   try {

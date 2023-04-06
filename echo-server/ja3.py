@@ -6,7 +6,7 @@ import dpkt
 import json
 import socket
 import struct
-from hashlib import md5
+from hashlib import md5, sha1
 import sys
 
 GREASE_TABLE = {0x0a0a: True, 0x1a1a: True, 0x2a2a: True, 0x3a3a: True,
@@ -187,14 +187,19 @@ def process_ssl(pkt, any_port=False):
         ja3 += process_extensions(client_handshake)
         ja3 = ",".join(ja3)
 
-        ja3_digest = md5(ja3.encode()).hexdigest()
+        ja3_encoded = ja3.encode()
+
+        ja3_md5 = md5(ja3_encoded).hexdigest()
+        ja3_sha1 = sha1(ja3_encoded).hexdigest()
         # src_ip = convert_ip(ip.src)
         src_ip = None
         # sport = tcp.sport
         sport = None
         record = {
-                  "ja3": ja3,
-                  "ja3_digest": ja3_digest}
+            "ja3": ja3,
+            "ja3_md5": ja3_md5,
+            "ja3_sha1": ja3_sha1
+        }
 
         return record
 

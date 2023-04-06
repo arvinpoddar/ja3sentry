@@ -18,6 +18,7 @@ import ssl
 import sys
 import select
 import json
+import datetime
 
 import queue
 import httpagentparser
@@ -273,6 +274,7 @@ def retrieve_http_req(sock, message_queues, sock_to_ja3, poller):
         _LOGGER.info(browser_info)
 
         reply_json = {
+            "date": datetime.datetime.now().isoformat(),
             "ja3": ja3_record.get("ja3", None),
             "ja3_hash": ja3_record.get("ja3_digest", None),
             "user_agent": user_agent_string,
