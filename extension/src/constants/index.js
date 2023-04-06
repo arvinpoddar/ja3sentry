@@ -19,3 +19,9 @@ export const CACHE = {
 };
 
 export const JA3_BLOCK_SIZE = 4;
+
+export const API = {
+  ECHO_SERVER: "https://echo.ja3sentry.com",
+  POTENTIAL_THREAT_ENDPOINT: "http://localhost:4000/api/potential-threat",
+  VERIFY_ENDPOINT: "http://localhost:4000/api/verify",
+};

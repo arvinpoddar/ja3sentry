@@ -22,19 +22,22 @@ export default {
   },
 
   async retrieveBanner() {
-    const date = await chrome.storage.local.get(CACHE.BANNER);
-    return date[CACHE.BANNER] || null;
+    const banner = await chrome.storage.local.get(CACHE.BANNER);
+    return banner[CACHE.BANNER] || null;
   },
 
   async setBanner(banner) {
     await chrome.storage.local.set({
-      [CACHE.LAST_UPDATED]: { ...banner, date: this.getDateString() },
+      [CACHE.BANNER]: { ...banner, date: this.getDateString() },
     });
+  },
+
+  async clearBanner() {
+    await chrome.storage.local.set({ [CACHE.BANNER]: null });
   },
 
   async addJA3BlockToCache(ja3) {
     const cache = await this.retrieveCache();
-    console.log(cache);
     if (cache.length + 1 > CACHE.MAX_ENTRIES) {
       cache.pop();
     }
@@ -46,6 +49,7 @@ export default {
 
   async wipeCache() {
     await chrome.storage.local.set({ [CACHE.KEY]: [] });
+    await chrome.storage.local.set({ [CACHE.BANNER]: null });
     await this.setLastUpdatedDate();
   },
 };

@@ -1,9 +1,22 @@
 <template>
   <div class="info-banner" :style="bannerStyle">
-    <div class="text-lg font-semibold">{{ title }}</div>
+    <div class="flex justify-between items-center">
+      <div class="text-lg font-semibold">{{ title }}</div>
+      <strong
+        class="text-xl align-center cursor-pointer"
+        v-if="clearable"
+        @click="emitClear"
+      >
+        &times;
+      </strong>
+    </div>
 
     <div class="text-sm font-light text-grey-light">
       {{ content }}
+    </div>
+
+    <div v-if="date" class="mt-2 text-xs font-light text-grey-light">
+      Reported: {{ date }}
     </div>
   </div>
 </template>
@@ -13,12 +26,15 @@ import { defineComponent, computed } from "vue";
 import { COLORS } from "@/constants/index";
 
 export default defineComponent({
+  emits: ["clear"],
   props: {
     type: String,
     title: String,
     content: String,
+    date: String,
+    clearable: Boolean,
   },
-  setup(props) {
+  setup(props, ctx) {
     const bannerColor = computed(() => {
       if (props.type === "warning") {
         return COLORS.WARNING;
@@ -36,8 +52,13 @@ export default defineComponent({
       };
     });
 
+    const emitClear = () => {
+      ctx.emit("clear");
+    };
+
     return {
       bannerStyle,
+      emitClear,
     };
   },
 });

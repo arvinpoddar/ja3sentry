@@ -27,18 +27,23 @@ app.post(VERIFY_ENDPOINT, (request, response) => {
     }
 
     const arrayToQueryCollection = (arr) => {
-      arr.push("null");
+      if (!arr.some((i) => !!i)) {
+        return "null";
+      }
       return arr
         .filter((i) => !!i)
         .map((i) => `'${i}'`)
         .join(",");
     };
 
+    const ja3s = ja3Block.map((block) => block.ja3);
     const md5s = ja3Block.map((block) => block.ja3_md5);
     const sha1s = ja3Block.map((block) => block.ja3_sha1);
     const userAgents = ja3Block.map((block) => block.user_agent);
 
-    const queryString = `SELECT * FROM threats WHERE ja3_md5 IN (${arrayToQueryCollection(
+    const queryString = `SELECT * FROM threats WHERE ja3 IN (${arrayToQueryCollection(
+      ja3s
+    )}) OR ja3_md5 IN (${arrayToQueryCollection(
       md5s
     )}) OR ja3_sha1 IN (${arrayToQueryCollection(
       sha1s
@@ -48,6 +53,7 @@ app.post(VERIFY_ENDPOINT, (request, response) => {
 
     db.query(queryString, (error, result) => {
       if (error) {
+        console.error(error);
         return response.status(500).send(error);
       }
 

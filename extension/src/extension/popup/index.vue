@@ -11,6 +11,17 @@
         :type="banner.type"
         :title="banner.title"
         :content="banner.message"
+        :date="banner.date"
+        class="mb-2"
+        clearable
+        @clear="clearBanner"
+      />
+      <Banner
+        v-else
+        type="Positive"
+        title="All Clear!"
+        content="No suspicious JA3 activity detected"
+        class="mb-2"
       />
 
       <div class="mt-2 text-xs font-light text-grey-light">
@@ -77,7 +88,11 @@ export default {
       banner.value = await CacheService.retrieveBanner();
       cache.value = await CacheService.retrieveCache();
       lastUpdated.value = await CacheService.retrieveLastUpdatedDate();
-      console.log(cache.value);
+    };
+
+    const clearBanner = async () => {
+      banner.value = null;
+      await CacheService.clearBanner();
     };
 
     const displayCache = ref(false);
@@ -112,14 +127,15 @@ export default {
     };
 
     onMounted(() => {
+      updateCacheDisplay();
       setInterval(async () => {
         updateCacheDisplay();
       }, 1000);
-      updateCacheDisplay();
     });
 
     return {
       cache,
+      banner,
       lastUpdated,
 
       displayCache,
@@ -129,6 +145,7 @@ export default {
 
       manuallyCheckJA3,
       formatEntry,
+      clearBanner,
     };
   },
 };

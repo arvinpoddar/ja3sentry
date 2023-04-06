@@ -1,8 +1,18 @@
 import { INSECURE_CIPHER_SUITES } from "../constants/ciphers";
-import { BANNER } from "../constants/index";
+import { BANNER, API } from "../constants/index";
 
 export default {
   isRiskyUserAgentString(userAgentString) {
+    if (!userAgentString) {
+      return {
+        title: "Warning - User Agent",
+        message: "Your user agent is missing",
+        type: BANNER.WARNING,
+      };
+    }
+
+    const ua = userAgentString.toLowerCase();
+
     // Check for common suspicious browser strings
     const suspiciousIndicators = [
       "bot",
@@ -13,11 +23,7 @@ export default {
       "python",
     ];
 
-    if (
-      suspiciousIndicators.some((indicator) =>
-        userAgentString.toLowerCase().includes(indicator)
-      )
-    ) {
+    if (suspiciousIndicators.some((ind) => ua.includes(ind.toLowerCase()))) {
       return {
         title: "Warning - User Agent",
         message: `Your user agent belongs to a suspicious browser: ${userAgentString}`,
@@ -45,28 +51,10 @@ export default {
       "Firefox 10.",
     ];
 
-    if (outdatedDevices.some((device) => userAgentString.includes(device))) {
+    if (outdatedDevices.some((device) => ua.includes(device.toLowerCase()))) {
       return {
         title: "Warning - User Agent",
         message: `Your user agent belongs to an outdated device or OS: ${userAgentString}`,
-        type: BANNER.WARNING,
-      };
-    }
-
-    // Check for uncommon patterns
-    const suspiciousRegex = [
-      RegExp("^[ws]*python[sw]*$"),
-      RegExp("^curl/"),
-      RegExp("^[ws]*wget/"),
-      RegExp("^Mozilla/[.d]+s(Windows NT"),
-      RegExp("^Mozilla/[.d]+s(Macintosh;"),
-      RegExp("^Mozilla/[.d]+s(X11;"),
-    ];
-
-    if (suspiciousRegex.some((regex) => userAgentString.match(regex))) {
-      return {
-        title: "Warning - User Agent",
-        message: `Your user agent contains a suspicious pattern: ${userAgentString}`,
         type: BANNER.WARNING,
       };
     }
@@ -75,7 +63,7 @@ export default {
     return false;
   },
 
-  async isRiskyJA3(ja3String) {
+  isRiskyJA3(ja3String) {
     const [
       tlsVersion,
       ciphers,
@@ -99,13 +87,14 @@ export default {
       const sanitzedFirstHexByte = details.hex_byte_1.replace("0x", "");
       const sanitzedSecondHexByte = details.hex_byte_2.replace("0x", "");
       const hexBytes = sanitzedFirstHexByte + sanitzedSecondHexByte;
-
+      console.log(hexBytes);
       const decimalValue = parseInt(hexBytes, 16).toString();
+      console.log(decimalValue);
 
       if (splitCiphers.includes(decimalValue)) {
         return {
           title: "Warning - JA3",
-          message: `Your JA3 has a deprecated cipher suite: ${name}`,
+          message: `Your JA3 has a deprecated cipher suite (${name}): ${ja3String}`,
           type: BANNER.WARNING,
         };
       }
@@ -126,8 +115,26 @@ export default {
   getEntryRisk(entry) {
     const riskyJA3 = this.isRiskyJA3(entry.ja3);
     const riskyUA = this.isRiskyUserAgentString(entry.user_agent);
+    // Risky JA3 warnings take precedence over user agent warnings
     return riskyJA3 || riskyUA;
   },
 
-  async catalogRiskyEntry(entry) {},
+  async catalogRiskyEntry(entry) {
+    const res = await fetch(API.POTENTIAL_THREAT_ENDPOINT, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ja3: entry.ja3,
+        ja3_md5: entry.ja3_md5,
+        ja3_sha1: entry.ja3_sha1,
+        user_agent: entry.user_agent,
+        collected_at: entry.date,
+      }),
+    });
+
+    return await res.json();
+  },
 };
