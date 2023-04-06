@@ -8,13 +8,14 @@
     "default_icon": "assets/icons/icon-16.png"
   },
   "icons": {
-    "16": "assets/icons/icon-16.png",
-    "32": "assets/icons/icon-32.png",
-    "48": "assets/icons/icon-48.png",
+    "16": "assets/icons/icon-128.png",
+    "32": "assets/icons/icon-128.png",
+    "48": "assets/icons/icon-128.png",
+    "96": "assets/icons/icon-128.png",
     "128": "assets/icons/icon-128.png"
   },
   "background": {
-    "service_worker": "service-worker.js"
+    "scripts": ["service-worker.js"]
   },
   "permissions": [
     "storage"

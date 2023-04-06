@@ -6,34 +6,34 @@ export default {
   },
 
   async retrieveCache() {
-    const cache = await chrome.storage.local.get(CACHE.KEY);
+    const cache = await browser.storage.local.get(CACHE.KEY);
     return cache[CACHE.KEY] || [];
   },
 
   async retrieveLastUpdatedDate() {
-    const date = await chrome.storage.local.get(CACHE.LAST_UPDATED);
+    const date = await browser.storage.local.get(CACHE.LAST_UPDATED);
     return date[CACHE.LAST_UPDATED] || this.getDateString();
   },
 
   async setLastUpdatedDate() {
-    await chrome.storage.local.set({
+    await browser.storage.local.set({
       [CACHE.LAST_UPDATED]: this.getDateString(),
     });
   },
 
   async retrieveBanner() {
-    const banner = await chrome.storage.local.get(CACHE.BANNER);
+    const banner = await browser.storage.local.get(CACHE.BANNER);
     return banner[CACHE.BANNER] || null;
   },
 
   async setBanner(banner) {
-    await chrome.storage.local.set({
+    await browser.storage.local.set({
       [CACHE.BANNER]: { ...banner, date: this.getDateString() },
     });
   },
 
   async clearBanner() {
-    await chrome.storage.local.set({ [CACHE.BANNER]: null });
+    await browser.storage.local.set({ [CACHE.BANNER]: null });
   },
 
   async addJA3BlockToCache(ja3) {
@@ -43,13 +43,13 @@ export default {
     }
     cache.unshift(ja3);
 
-    await chrome.storage.local.set({ [CACHE.KEY]: cache });
+    await browser.storage.local.set({ [CACHE.KEY]: cache });
     await this.setLastUpdatedDate();
   },
 
   async wipeCache() {
-    await chrome.storage.local.set({ [CACHE.KEY]: [] });
-    await chrome.storage.local.set({ [CACHE.BANNER]: null });
+    await browser.storage.local.set({ [CACHE.KEY]: [] });
+    await browser.storage.local.set({ [CACHE.BANNER]: null });
     await this.setLastUpdatedDate();
   },
 };

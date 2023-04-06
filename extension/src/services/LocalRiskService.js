@@ -87,9 +87,7 @@ export default {
       const sanitzedFirstHexByte = details.hex_byte_1.replace("0x", "");
       const sanitzedSecondHexByte = details.hex_byte_2.replace("0x", "");
       const hexBytes = sanitzedFirstHexByte + sanitzedSecondHexByte;
-      console.log(hexBytes);
       const decimalValue = parseInt(hexBytes, 16).toString();
-      console.log(decimalValue);
 
       if (splitCiphers.includes(decimalValue)) {
         return {

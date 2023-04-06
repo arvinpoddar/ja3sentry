@@ -154,6 +154,8 @@ export default {
 <style scoped>
 .extension-outer {
   min-width: 480px;
+  max-width: 480px;
+  width: 480px;
 }
 
 .ja3-logo {
@@ -184,6 +186,7 @@ export default {
   border-radius: 5px;
   margin-bottom: 12px;
   font-size: 10px;
+  overflow-wrap: break-word;
 }
 
 .cache-entry:last-of-type {

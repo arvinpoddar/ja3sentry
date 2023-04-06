@@ -1,4 +1,3 @@
-import CacheControl from "./CacheService";
 import { BANNER, API } from "../constants/index";
 
 export default {

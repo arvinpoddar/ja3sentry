@@ -32,8 +32,8 @@ export const fetchAndValidateJA3 = async () => {
       await CacheService.setBanner(risk);
     }
 
-    chrome.action.setBadgeText({ text: String(cache.length) });
-    chrome.action.setBadgeBackgroundColor({ color: bannerColor });
+    browser.action.setBadgeText({ text: String(cache.length) });
+    browser.action.setBadgeBackgroundColor({ color: bannerColor });
   } catch (error) {
     console.error("[ERROR]", error);
   }
