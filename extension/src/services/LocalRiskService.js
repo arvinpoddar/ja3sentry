@@ -1,3 +1,4 @@
+import { SUSPICIOUS_USER_AGENTS } from "../constants/userAgents";
 import { INSECURE_CIPHER_SUITES } from "../constants/ciphers";
 import { BANNER, API } from "../constants/index";
 
@@ -13,20 +14,11 @@ export default {
 
     const ua = userAgentString.toLowerCase();
 
-    // Check for common suspicious browser strings
-    const suspiciousIndicators = [
-      "bot",
-      "crawler",
-      "spider",
-      "curl",
-      "wget",
-      "python",
-    ];
-
-    if (suspiciousIndicators.some((ind) => ua.includes(ind.toLowerCase()))) {
+    // Check for suspicious user agents
+    if (SUSPICIOUS_USER_AGENTS.some((i) => ua.includes(i.toLowerCase()))) {
       return {
         title: "Warning - User Agent",
-        message: `Your user agent belongs to a suspicious browser: ${userAgentString}`,
+        message: `Your user agent is suspicious: ${userAgentString}`,
         type: BANNER.WARNING,
       };
     }
@@ -92,7 +84,7 @@ export default {
       if (splitCiphers.includes(decimalValue)) {
         return {
           title: "Warning - JA3",
-          message: `Your JA3 has a deprecated cipher suite (${name}): ${ja3String}`,
+          message: `Your JA3 has a deprecated cipher suite: ${name} (0x${hexBytes} or ${decimalValue}).`,
           type: BANNER.WARNING,
         };
       }

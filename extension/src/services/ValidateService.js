@@ -26,10 +26,17 @@ export default {
     if (threat.reason) {
       message += `This threat is associated with ${threat.reason}.`;
     }
+
+    if (threat.ja3_md5) {
+      message += `\nMD5 Hash: ${threat.ja3_md5}`;
+    } else if (threat.ja3_sha1) {
+      message += `\nSHA1 Hash: ${threat.ja3_sha1}`;
+    }
+
     return {
       type: BANNER.NEGATIVE,
       title: "Malicious JA3",
-      message: `${message}\nHash: ${threat.ja3_md5 || threat.ja3_sha1}`,
+      message,
     };
   },
 };

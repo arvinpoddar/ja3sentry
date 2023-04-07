@@ -1248,4 +1248,18 @@ export const INSECURE_CIPHER_SUITES = {
     security: "insecure",
     tls_version: ["TLS1.3"],
   },
+
+  DHE_RSA_AES_128_SHA: {
+    gnutls_name: "",
+    openssl_name: "",
+    hex_byte_1: "0x00",
+    hex_byte_2: "0x33",
+    protocol_version: "TLS",
+    kex_algorithm: "DHE",
+    auth_algorithm: "PSK",
+    enc_algorithm: "RC4 128",
+    hash_algorithm: "SHA",
+    security: "insecure",
+    tls_version: ["TLS1.0", "TLS1.1", "TLS1.2"],
+  },
 };

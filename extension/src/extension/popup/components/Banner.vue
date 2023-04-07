@@ -70,5 +70,6 @@ export default defineComponent({
   background-color: #1d1d1d;
   color: #fafafb;
   padding: 12px;
+  overflow-wrap: break-word;
 }
 </style>
