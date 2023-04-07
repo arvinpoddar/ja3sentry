@@ -18,10 +18,12 @@ export const CACHE = {
   BANNER: "",
 };
 
-export const JA3_BLOCK_SIZE = 4;
+// For local testing, use http://localhost:4000
+const BASE_URL =
+  "https://c3bmczes6tkwdfy5jnysnfokqe0recue.lambda-url.us-east-2.on.aws/api";
 
 export const API = {
   ECHO_SERVER: "https://echo.ja3sentry.com",
-  POTENTIAL_THREAT_ENDPOINT: "http://localhost:4000/api/potential-threat",
-  VERIFY_ENDPOINT: "http://localhost:4000/api/verify",
+  POTENTIAL_THREAT_ENDPOINT: `${BASE_URL}/potential-threat`,
+  VERIFY_ENDPOINT: `${BASE_URL}/verify`,
 };

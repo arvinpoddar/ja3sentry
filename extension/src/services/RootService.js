@@ -36,5 +36,7 @@ export const fetchAndValidateJA3 = async () => {
     browser.action.setBadgeBackgroundColor({ color: bannerColor });
   } catch (error) {
     console.error("[ERROR]", error);
+    browser.action.setBadgeText({ text: "!" });
+    browser.action.setBadgeBackgroundColor({ color: COLORS.WARNING });
   }
 };
