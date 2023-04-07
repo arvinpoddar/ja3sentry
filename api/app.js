@@ -9,7 +9,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get("/api/check", (req, res) => {
+app.get("/", (req, res) => {
   res.status(200).send({ message: "JA3Sentry API V1" });
 });
 
@@ -112,7 +112,11 @@ app.post(POTENTIAL_THREAT_ENDPOINT, (request, response) => {
   }
 });
 
-const API_PORT = process.env.APPLICATION_PORT || 4000;
-app.listen(API_PORT, () => {
-  console.log(`API listening on port ${API_PORT}`);
-});
+if (!process.env.AWS_EXECUTION_ENV) {
+  const API_PORT = process.env.APPLICATION_PORT || 4000;
+  app.listen(API_PORT, () => {
+    console.log(`API listening on port ${API_PORT}`);
+  });
+}
+
+module.exports = app;
