@@ -7,7 +7,7 @@ const customParseFormat = require("dayjs/plugin/customParseFormat");
 dayjs.extend(customParseFormat);
 
 // DB Connection
-const db = require("./connection");
+const db = require("../connection");
 
 /**
  * Given a CSV, convert the CSV into an INSERT SQL statement
