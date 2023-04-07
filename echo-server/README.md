@@ -49,9 +49,9 @@ This will output `server.crt` and `server.key`, which I use as the certificate a
     /etc/letsencrypt/live/echo.ja3sentry.com/privkey.pem;
     ```
 9. Turn off `nginx` with `sudo pkill -f nginx & wait $!`
-10. In the `echo-server`'s' `https_server.py` file, change the `PORT` to be `443`, change the `HOST` to `0.0.0.0`, and point the certificate variables to the paths above.
+10. In the `echo-server`'s `https_server.py` file, change the `PORT` to be `443`, change the `HOST` to `0.0.0.0`, and point the certificate variables to the paths above.
 11. Install dependencies with `pip3 install -r requirements.txt`
-12. Run the server with `sudo https_server.py`. The `sudo` is necessary so our app can run on port 443, which is privileged.
+12. Run the server with `sudo python3 https_server.py`. The `sudo` is necessary so our app can run on port 443, which is privileged.
 13. Go to `echo.ja3sentry.com` to test that the server is working.
 
 ## Helpful Commands
