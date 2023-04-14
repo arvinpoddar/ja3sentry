@@ -60,7 +60,7 @@
           :max="MAX_INTERVAL_SECONDS"
           @change="setPollFrequency"
         />
-        <div class="ml-4 text-white text-xs">
+        <div class="ml-2 text-white text-xs">
           Poll: {{ pollFrequencySeconds }} secs
         </div>
 
