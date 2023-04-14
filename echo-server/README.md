@@ -1,6 +1,8 @@
 # JA3Sentry Echo Server
 
-The Echo server returns TLS client handshake data to the client, along with the JA3 and JA3 hash data. This project borrows heavily from the PyJA3mas repository by [Appian](https://github.com/appian/pyja3mas). The documentation for this repository is linked below
+The Echo server returns TLS client handshake data to the client, along with the JA3 and JA3 hash data. This project borrows from the PyJA3mas repository by [Appian](https://github.com/appian/pyja3mas). The documentation for this repository is copied below.
+
+## Running Locally
 
 To generate the certificate files needed in the `cert` directory, I used this command (I am running a Mac OS 12.6)
 
@@ -19,9 +21,15 @@ To generate the certificate files needed in the `cert` directory, I used this co
   -days 365
 ```
 
-This will output `server.crt` and `server.key`, which I use as the certificate and private key respectively in `http_server.py`. Note, I also added thes `server.crt` to my Keychain Access with all permissions as trusted. For the original SO answer, see https://stackoverflow.com/a/64309893.
+This will output `server.crt` and `server.key`, which I use as the certificate and private key respectively in `http_server.py`. Note, I also added thes `server.crt` to my Keychain Access with all permissions as trusted. For the original SO answer, see https://stackoverflow.com/a/64309893. From here, you can run the server with:
 
-## EC2 Deployment Documentation
+```
+python3 https_server.py
+```
+
+This will make the server available on `https://localhost:4443`. You MUST use HTTPS, or the connection to the server will be refused.
+
+## Deploying Echo Server to AWS EC2
 
 1. Launch a new AWS EC2 Instance from the console (use the Quick Start menu)
     - Select Amazon Linux 2 AMI as the operating system
@@ -56,20 +64,14 @@ This will output `server.crt` and `server.key`, which I use as the certificate a
 
 ## Helpful Commands
 ```
-sudo systemctl start nginx
-sudo pkill -f nginx & wait $!
-
-location / {
-            proxy_pass https://0.0.0.0:4443;
-            proxy_http_version 1.1;
-            proxy_set_header Upgrade $http_upgrade;
-            proxy_set_header Connection 'upgrade';
-            proxy_set_header Host $host;
-            proxy_cache_bypass $http_upgrade;
-        }
+nohup sudo python3 ja3sentry/echo-server/https_server.py # run the Echo Server in the background
+sudo systemctl start nginx # start nginx (used during HTTPS setup)
+sudo pkill -f nginx & wait $! # kill nginx (used during HTTPS setup)
 ```
 
-# PyJA3mas
+---
+
+# PyJA3mas (Appian Project Copied Documentation)
 
 ### Background Information
 
