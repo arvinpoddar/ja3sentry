@@ -15,7 +15,8 @@ export const CACHE = {
   MAX_ENTRIES: 4,
   KEY: "ja3-sentry-cache",
   LAST_UDPATED: "ja3-sentry-last-updated",
-  BANNER: "",
+  BANNER: "ja3-banner",
+  POLL_TIME: "ja3-poll-time",
 };
 
 // For local testing, use http://localhost:4000

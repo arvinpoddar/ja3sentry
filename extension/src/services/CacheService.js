@@ -47,6 +47,17 @@ export default {
     await this.setLastUpdatedDate();
   },
 
+  async retrievePollInterval() {
+    const data = await browser.storage.local.get(CACHE.POLL_TIME);
+    return data[CACHE.POLL_TIME] || 20000;
+  },
+
+  async setPollInterval(ms) {
+    await browser.storage.local.set({
+      [CACHE.POLL_TIME]: ms,
+    });
+  },
+
   async wipeCache() {
     await browser.storage.local.set({ [CACHE.KEY]: [] });
     await browser.storage.local.set({ [CACHE.BANNER]: null });

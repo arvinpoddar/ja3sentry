@@ -52,7 +52,20 @@
         </div>
       </div>
 
-      <div class="flex justify-end mt-6">
+      <div class="flex items-center mt-6">
+        <input
+          v-model.number="pollFrequencySeconds"
+          type="range"
+          :min="MIN_INTERVAL_SECONDS"
+          :max="MAX_INTERVAL_SECONDS"
+          @change="setPollFrequency"
+        />
+        <div class="ml-4 text-white text-xs">
+          Poll: {{ pollFrequencySeconds }} secs
+        </div>
+
+        <div class="flex-1"></div>
+
         <Button
           label="Check Now"
           type="primary"
@@ -126,7 +139,28 @@ export default {
       return JSON.stringify(entry, null, 2);
     };
 
-    onMounted(() => {
+    const MIN_INTERVAL_SECONDS = 3;
+    const MAX_INTERVAL_SECONDS = 2 * 60;
+    const MIN_INTERVAL_MS = MIN_INTERVAL_SECONDS * 1000;
+    const MAX_INTERVAL_MS = MAX_INTERVAL_SECONDS * 1000;
+
+    const pollFrequencySeconds = ref(20);
+
+    const constrainInterval = (ms) => {
+      return Math.min(Math.max(ms, MIN_INTERVAL_MS), MAX_INTERVAL_MS);
+    };
+
+    const setPollFrequency = async () => {
+      const interval = constrainInterval(pollFrequencySeconds.value * 1000);
+      await CacheService.setPollInterval(interval);
+    };
+
+    onMounted(async () => {
+      // Grab poll frequency from cache
+      const pollPeriodMs = await CacheService.retrievePollInterval();
+      pollFrequencySeconds.value = constrainInterval(pollPeriodMs) / 1000;
+
+      // Update banner contents and JA3 from cache
       updateCacheDisplay();
       setInterval(async () => {
         updateCacheDisplay();
@@ -142,6 +176,11 @@ export default {
       toggleCacheDisplay,
       toggleDisplayHeader,
       toggleDisplayIcon,
+
+      MIN_INTERVAL_SECONDS,
+      MAX_INTERVAL_SECONDS,
+      pollFrequencySeconds,
+      setPollFrequency,
 
       manuallyCheckJA3,
       formatEntry,
