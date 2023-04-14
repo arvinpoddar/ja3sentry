@@ -70,7 +70,7 @@
           label="Check Now"
           type="primary"
           :disabled="loading"
-          @click="manuallyCheckJA3"
+          @click="debounceCheckJA3"
         />
       </div>
     </main>
@@ -123,6 +123,21 @@ export default {
       return displayCache.value ? "-" : "+";
     });
 
+    // Debounces a given function
+    const DEBOUNCE_PERIOD_MS = 1000;
+    const debounce = (func, timeout = DEBOUNCE_PERIOD_MS) => {
+      let timer;
+      return (...args) => {
+        if (!timer) {
+          func.apply(this, args);
+        }
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          timer = undefined;
+        }, timeout);
+      };
+    };
+
     const manuallyCheckJA3 = async () => {
       try {
         loading.value = true;
@@ -134,6 +149,10 @@ export default {
         loading.value = false;
       }
     };
+
+    // Creates a debounced version of the manual check button, which is now safe
+    // from spam clicking
+    const debounceCheckJA3 = debounce(async () => manuallyCheckJA3());
 
     const formatEntry = (entry) => {
       return JSON.stringify(entry, null, 2);
@@ -182,6 +201,7 @@ export default {
       pollFrequencySeconds,
       setPollFrequency,
 
+      debounceCheckJA3,
       manuallyCheckJA3,
       formatEntry,
       clearBanner,
