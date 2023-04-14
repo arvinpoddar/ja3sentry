@@ -1,9 +1,11 @@
 # Verifier Lambda
 
-An Express REST API that supports two endpoints:
+An Node.js Express REST API that supports two endpoints:
 
 - `POST /api/verify`: Check a collection of JA3s against a database of *known threat* JA3 hashes
 - `POST /api/potential-threat`: Add a JA3 to a database table of *potentially* risky client signatures
+
+All data is persisted to a PostgreSQL database.
 
 The verifier also includes the script used to populate the database with the initial CSV database. These are available under `/populate`
 
