@@ -2,6 +2,8 @@
 
 A browser extension for identifying signs of malicious activity through client TLS fingerprinting.
 
+**Video Demo: https://youtu.be/5o7Syx5caB4**
+
 ![Demo](./docs/main-screenshot.png)
 
 ## Architecture
